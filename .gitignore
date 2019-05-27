@@ -1,3 +1,15 @@
+# Any Other Git Files #
+*/**/.git*
+
+#Java Binary
+*.class
+*.jar
+
+# Package Files #
+*.war
+*.ear
+
+# Maven #
 target/
 pom.xml.tag
 pom.xml.releaseBackup
