@@ -8,7 +8,7 @@
 	<Loggers>
 		<Logger name="com.k8s.xmetrics" level="warn"/>
 
-		<Logger name="org.springframework" level="info"/>
+		<Logger name="org.springframework" level="warn"/>
 
 		<Root level="warn" additivity="false">
 			<AppenderRef ref="STDOUT"/>

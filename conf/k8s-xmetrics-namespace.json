@@ -1,0 +1,10 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+	"name": "k8s-xmetrics",
+	"labels": {
+	  "name": "k8s-xmetrics"
+	}
+  }
+}

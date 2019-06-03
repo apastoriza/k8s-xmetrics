@@ -3,4 +3,33 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="propertyPlaceholderConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="locations">
+			<value>classpath:k8s-xmetrics-agent-scheduler.properties</value>
+		</property>
+	</bean>
+
+	<bean id="restTemplateService" class="com.k8s.xmetrics.service.RestTemplateServiceImpl"/>
+
+	<bean id="nodeMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.NodeMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${node.monitor.scheduler.cron}"/>
+		<property name="monitorTask" ref="monitorTask"/>
+		<property name="taskScheduler" ref="taskScheduler"/>
+	</bean>
+
+	<!-- Tasks -->
+
+	<bean id="monitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
+		<property name="host" value="${node.monitor.url.host}"/>
+		<property name="link" value="${node.monitor.url.link}"/>
+		<property name="restTemplateService" ref="restTemplateService"/>
+	</bean>
+
+	<!-- Scheduler -->
+	<bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+		<property name="poolSize" value="10"/>
+	</bean>
 </beans>

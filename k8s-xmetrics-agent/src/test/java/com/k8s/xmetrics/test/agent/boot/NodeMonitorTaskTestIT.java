@@ -1,6 +1,7 @@
 package com.k8s.xmetrics.test.agent.boot;
 
 import com.k8s.xmetrics.agent.boot.Application;
+import com.k8s.xmetrics.scheduler.NodeMonitorTask;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class ApplicationTestIT {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationTestIT.class);
+public class NodeMonitorTaskTestIT {
+	private static final Logger LOGGER = LoggerFactory.getLogger(NodeMonitorTaskTestIT.class);
 
 	@Autowired
 	private ApplicationContext context;
@@ -29,11 +30,9 @@ public class ApplicationTestIT {
 	 */
 	@Test
 	public void contextLoads() throws Exception {
-		assertThat(this.context).isNotNull();
-		assertThat(this.context.getApplicationName()).isNotNull();
-		assertThat(this.context.getId()).isNotNull();
 		assertThat(this.context.getBean("monitorTask")).isNotNull();
-		assertThat(this.context.getBean("nodeMonitorScheduler")).isNotNull();
+		final NodeMonitorTask nodeMonitorTask = (NodeMonitorTask) this.context.getBean("monitorTask");
+		//nodeMonitorTask.forceMonitor();
 	}
 
 }

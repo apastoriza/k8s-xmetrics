@@ -26,6 +26,7 @@ public class HelloController {
 
 	@RequestMapping("/services")
 	public List<String> services() {
+		LOGGER.error("Getting all services....");
 		return this.discoveryClient.getServices();
 	}
 
