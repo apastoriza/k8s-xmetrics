@@ -1,16 +1,19 @@
 package com.k8s.xmetrics.util;
 
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.TrustStrategy;
+import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -23,7 +26,6 @@ import javax.net.ssl.SSLContext;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.util.Arrays;
 
 /**
@@ -54,38 +56,38 @@ public class RestTemplateFactory {
 	private static ClientHttpRequestFactory getClientHttpRequestFactory() {
 
 
+		HttpComponentsClientHttpRequestFactory requestFactory = null;
 
+		try {
+			final RequestConfig requestConfig = loadRequestConfig();
 
+			final TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
+			final SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+			final SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
 
+			final Registry<ConnectionSocketFactory> socketFactoryRegistry =
+					RegistryBuilder.<ConnectionSocketFactory>create()
+							.register("https", sslsf)
+							.register("http", new PlainConnectionSocketFactory())
+							.build();
 
-		final CloseableHttpClient client;
-		final RequestConfig config = loadRequestConfig();
-		final SSLContext sslContext = loadSSLContext();
-		if(sslContext==null){
-			LOGGER.error("No SSL context at this point");
-			client = HttpClientBuilder
-					.create()
-					.setDefaultRequestConfig(config)
+			final BasicHttpClientConnectionManager connectionManager =
+					new BasicHttpClientConnectionManager(socketFactoryRegistry);
+			final CloseableHttpClient httpClient = HttpClients.custom()
+					.setSSLSocketFactory(sslsf)
+					.setConnectionManager(connectionManager)
+					.setDefaultRequestConfig(requestConfig)
 					.build();
-		}else{
-			client = HttpClientBuilder
-					.create()
-					.setDefaultRequestConfig(config)
-					.setSSLContext(sslContext)
-					.setConnectionManager(
-							new PoolingHttpClientConnectionManager(
-									RegistryBuilder.<ConnectionSocketFactory>create()
-											.register("http", PlainConnectionSocketFactory.INSTANCE)
-											.register("https", new SSLConnectionSocketFactory(sslContext,
-													NoopHostnameVerifier.INSTANCE))
-											.build()
-							))
-					.build();
+
+			requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+		} catch (final NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+			LOGGER.error(e.getMessage());
 		}
 
 
+		return requestFactory;
 
-		return new HttpComponentsClientHttpRequestFactory(client);
+
 	}
 
 	private static RequestConfig loadRequestConfig() {
@@ -96,18 +98,15 @@ public class RestTemplateFactory {
 				.build();
 	}
 
-	private static SSLContext loadSSLContext() {
-		SSLContext sslContext = null;
+	private static SSLConnectionSocketFactory loadSSLConnectionSocketFactory() {
+		SSLConnectionSocketFactory socketFactory = null;
 		try {
-			sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-				public boolean isTrusted(final X509Certificate[] arg0, final String arg1) {
-					return true;
-				}
-			}).build();
-		} catch (final NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+			final SSLContext sslContext = SSLContextBuilder.create().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+			socketFactory = new SSLConnectionSocketFactory(sslContext);
+		} catch (final NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
 			LOGGER.error(e.getMessage());
 		}
-		return sslContext;
+		return socketFactory;
 	}
 
 }

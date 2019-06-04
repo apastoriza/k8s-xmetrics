@@ -32,12 +32,14 @@ public class RestTemplateServiceImpl implements RestTemplateService {
 	@Override
 	public String getJson(final String url) {
 		final ResponseEntity<String> responseEntity = this.exchangeGet(url, String.class);
+		LOGGER.warn("responseEntity: {}", responseEntity);
 		return responseEntity.getBody();
 	}
 
 
 	private <T> ResponseEntity<T> exchangeGet(final String url, final Class<T> responseType) {
 		try {
+			LOGGER.warn("Doing HTTP GET for: {}", url);
 			final HttpEntity request = this.composeHttpEntity();
 			return this.retryTemplate.execute(new RetryCallback<ResponseEntity<T>, Exception>() {
 				@Override
