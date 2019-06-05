@@ -13,13 +13,6 @@
 
 	<bean id="restTemplateService" class="com.k8s.xmetrics.service.RestTemplateServiceImpl"/>
 
-	<bean id="nodeMonitorScheduler"
-		  class="com.k8s.xmetrics.scheduler.NodeMonitorScheduler" init-method="initMethod">
-		<property name="cronExpression" value="${node.monitor.scheduler.cron}"/>
-		<property name="monitorTask" ref="monitorTask"/>
-		<property name="taskScheduler" ref="taskScheduler"/>
-	</bean>
-
 	<bean id="apiCallService" class="com.k8s.xmetrics.service.k8s.ApiCallServiceImpl">
 		<property name="apiClientService" ref="apiClientService"/>
 	</bean>
@@ -29,14 +22,46 @@
 	</bean>
 
 	<!-- Tasks -->
-	<bean id="monitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
-		<property name="linkNodes" value="${node.monitor.url.linkNodes}"/>
-		<property name="linkPods" value="${node.monitor.url.linkPods}"/>
+	<bean id="hardwareMonitorTask" class="com.k8s.xmetrics.scheduler.HardwareMonitorTask">
+
+	</bean>
+
+	<bean id="nodeMonitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
+		<property name="linkNodes" value="${monitor.node.url.link}"/>
+		<property name="apiCallService" ref="apiCallService"/>
+	</bean>
+
+	<bean id="podMonitorTask" class="com.k8s.xmetrics.scheduler.PodMonitorTask">
+		<property name="linkPods" value="${monitor.pod.url.link}"/>
 		<property name="apiCallService" ref="apiCallService"/>
 	</bean>
 
 	<!-- Scheduler -->
-	<bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
-		<property name="poolSize" value="10"/>
+	<bean id="taskSchedulerAgent" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+		<property name="poolSize" value="${task.scheduler.pool.agent}"/>
 	</bean>
+
+
+
+	<bean id="hardwareMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.HardwareMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${monitor.hardware.scheduler.cron}"/>
+		<property name="monitorTask" ref="hardwareMonitorTask"/>
+		<property name="taskScheduler" ref="taskSchedulerAgent"/>
+	</bean>
+
+	<bean id="nodeMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.NodeMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${monitor.node.scheduler.cron}"/>
+		<property name="monitorTask" ref="nodeMonitorTask"/>
+		<property name="taskScheduler" ref="taskSchedulerAgent"/>
+	</bean>
+
+	<bean id="podMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.PodMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${monitor.pod.scheduler.cron}"/>
+		<property name="monitorTask" ref="podMonitorTask"/>
+		<property name="taskScheduler" ref="taskSchedulerAgent"/>
+	</bean>
+
 </beans>

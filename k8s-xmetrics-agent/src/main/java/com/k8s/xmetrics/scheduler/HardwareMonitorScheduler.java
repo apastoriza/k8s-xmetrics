@@ -3,6 +3,6 @@ package com.k8s.xmetrics.scheduler;
 /**
  * @author apastoriza
  */
-public class NodeMonitorScheduler extends AbstractSimpleScheduler {
+public class HardwareMonitorScheduler extends AbstractSimpleScheduler {
 	//Do nothing yet
 }

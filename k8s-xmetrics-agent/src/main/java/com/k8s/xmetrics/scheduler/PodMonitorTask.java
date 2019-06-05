@@ -2,9 +2,9 @@ package com.k8s.xmetrics.scheduler;
 
 import com.google.gson.reflect.TypeToken;
 import com.k8s.xmetrics.model.k8s.Metadata;
-import com.k8s.xmetrics.model.k8s.NodeMetrics;
-import com.k8s.xmetrics.model.k8s.NodeMetricsList;
-import com.k8s.xmetrics.model.k8s.NodeMetricsListItem;
+import com.k8s.xmetrics.model.k8s.PodMetrics;
+import com.k8s.xmetrics.model.k8s.PodMetricsList;
+import com.k8s.xmetrics.model.k8s.PodMetricsListItem;
 import com.k8s.xmetrics.service.k8s.ApiCallService;
 import io.kubernetes.client.ApiException;
 import org.slf4j.Logger;
@@ -14,13 +14,13 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * @author apastoriza
  */
-public class NodeMonitorTask implements Runnable {
-	private static final Logger LOGGER = LoggerFactory.getLogger(NodeMonitorTask.class);
-	private String linkNodes;
+public class PodMonitorTask implements Runnable {
+	private static final Logger LOGGER = LoggerFactory.getLogger(PodMonitorTask.class);
+
+	private String linkPods;
 
 	private ApiCallService apiCallService;
 
@@ -32,28 +32,28 @@ public class NodeMonitorTask implements Runnable {
 
 	private void monitor() {
 		try {
-			final NodeMetricsList nodeMetricsList = this.apiCallService.getData(this.linkNodes, new TypeToken<NodeMetricsList>() {
+			final PodMetricsList podMetricsList = this.apiCallService.getData(this.linkPods, new TypeToken<PodMetricsList>() {
 				//empty type token
 			}.getType());
-			assertThat(nodeMetricsList).isNotNull();
-			final List<NodeMetricsListItem> items = nodeMetricsList.getItems();
-			this.iterateNodes(items);
+			assertThat(podMetricsList).isNotNull();
+			final List<PodMetricsListItem> items = podMetricsList.getItems();
+			this.iteratePods(items);
 		} catch (final ApiException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
 
-	private void iterateNodes(final List<NodeMetricsListItem> items) {
+	private void iteratePods(final List<PodMetricsListItem> items) {
 		assertThat(items).isNotNull();
-		for (final NodeMetricsListItem item : items) {
+		for (final PodMetricsListItem item : items) {
 			try {
 				final Metadata metadata = item.getMetadata();
 				assertThat(items).isNotNull();
 				final String selfLink = metadata.getSelfLink();
-				final NodeMetrics nodeMetrics = this.apiCallService.getData(selfLink, new TypeToken<NodeMetrics>() {
+				final PodMetrics podMetrics = this.apiCallService.getData(selfLink, new TypeToken<PodMetrics>() {
 					//empty type token
 				}.getType());
-				LOGGER.warn("Node Metrics '{}': {}", nodeMetrics.getMetadata().getName(), nodeMetrics);
+				LOGGER.warn("Pod Metrics '{}': {}", podMetrics.getMetadata().getName(), podMetrics);
 			} catch (final ApiException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -64,8 +64,8 @@ public class NodeMonitorTask implements Runnable {
 		this.apiCallService = apiCallService;
 	}
 
-	public void setLinkNodes(final String linkNodes) {
-		this.linkNodes = linkNodes;
+	public void setLinkPods(final String linkPods) {
+		this.linkPods = linkPods;
 	}
 
 }
