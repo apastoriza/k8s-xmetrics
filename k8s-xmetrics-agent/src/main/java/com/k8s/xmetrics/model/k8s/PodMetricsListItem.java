@@ -1,13 +1,24 @@
 package com.k8s.xmetrics.model.k8s;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * @author apastoriza
  */
-public class NodeMetricsItem {
+public class PodMetricsListItem {
+	@SerializedName("metadata")
 	private Metadata metadata;
+
+	@SerializedName("timestamp")
 	private String timestamp;
+
+	@SerializedName("window")
 	private String window;
-	private Usage usage;
+
+	@SerializedName("containers")
+	private List<Container> containers;
 
 	public Metadata getMetadata() {
 		return this.metadata;
@@ -33,12 +44,12 @@ public class NodeMetricsItem {
 		this.window = window;
 	}
 
-	public Usage getUsage() {
-		return this.usage;
+	public List<Container> getContainers() {
+		return this.containers;
 	}
 
-	public void setUsage(final Usage usage) {
-		this.usage = usage;
+	public void setContainers(final List<Container> containers) {
+		this.containers = containers;
 	}
 
 	@Override
@@ -46,7 +57,7 @@ public class NodeMetricsItem {
 		if (this == o) return true;
 		if (o == null || this.getClass() != o.getClass()) return false;
 
-		final NodeMetricsItem that = (NodeMetricsItem) o;
+		final PodMetricsListItem that = (PodMetricsListItem) o;
 
 		return this.metadata != null ? this.metadata.equals(that.metadata) : that.metadata == null;
 	}
@@ -58,11 +69,11 @@ public class NodeMetricsItem {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("NodeMetricsItem{");
+		final StringBuilder sb = new StringBuilder("PodMetricsListItem{");
 		sb.append("metadata=").append(this.metadata);
 		sb.append(", timestamp='").append(this.timestamp).append('\'');
 		sb.append(", window='").append(this.window).append('\'');
-		sb.append(", usage=").append(this.usage);
+		sb.append(", containers=").append(this.containers);
 		sb.append('}');
 		return sb.toString();
 	}

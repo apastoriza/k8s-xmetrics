@@ -1,10 +1,14 @@
 package com.k8s.xmetrics.model.k8s;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author apastoriza
  */
 public class Usage {
+	@SerializedName("cpu")
 	private String cpu;
+	@SerializedName("memory")
 	private String memory;
 
 	public String getCpu() {

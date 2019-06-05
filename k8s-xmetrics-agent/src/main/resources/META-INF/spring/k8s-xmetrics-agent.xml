@@ -20,12 +20,19 @@
 		<property name="taskScheduler" ref="taskScheduler"/>
 	</bean>
 
-	<!-- Tasks -->
+	<bean id="apiCallService" class="com.k8s.xmetrics.service.k8s.ApiCallServiceImpl">
+		<property name="apiClientService" ref="apiClientService"/>
+	</bean>
 
+	<bean id="apiClientService" class="com.k8s.xmetrics.service.k8s.ApiClientServiceImpl">
+		<property name="httpReadTimeoutInMillis" value="${k8s.api.client.httpReadTimeoutInMillis}"/>
+	</bean>
+
+	<!-- Tasks -->
 	<bean id="monitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
-		<property name="host" value="${node.monitor.url.host}"/>
-		<property name="link" value="${node.monitor.url.link}"/>
-		<property name="restTemplateService" ref="restTemplateService"/>
+		<property name="linkNodes" value="${node.monitor.url.linkNodes}"/>
+		<property name="linkPods" value="${node.monitor.url.linkPods}"/>
+		<property name="apiCallService" ref="apiCallService"/>
 	</bean>
 
 	<!-- Scheduler -->

@@ -1,12 +1,51 @@
 package com.k8s.xmetrics.model.k8s;
 
+import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author apastoriza
  */
+@ApiModel(description = "Metadata resources")
 public class Metadata {
+	@SerializedName("apiVersion")
+	private String apiVersion;
+
+	@SerializedName("name")
 	private String name;
+
+	@SerializedName("namespace")
+	private String namespace;
+
+	@SerializedName("selfLink")
 	private String selfLink;
+
+	@SerializedName("creationTimestamp")
 	private String creationTimestamp;
+
+
+	/**
+	 * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
+	 *
+	 * @return apiVersion
+	 **/
+	@ApiModelProperty(value = "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources")
+	public String getApiVersion() {
+		return this.apiVersion;
+	}
+
+	public void setApiVersion(final String apiVersion) {
+		this.apiVersion = apiVersion;
+	}
+
+	public String getNamespace() {
+		return this.namespace;
+	}
+
+	public void setNamespace(final String namespace) {
+		this.namespace = namespace;
+	}
 
 	public String getName() {
 		return this.name;
@@ -55,7 +94,9 @@ public class Metadata {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("Metadata{");
-		sb.append("name='").append(this.name).append('\'');
+		sb.append("apiVersion='").append(this.apiVersion).append('\'');
+		sb.append(", name='").append(this.name).append('\'');
+		sb.append(", namespace='").append(this.namespace).append('\'');
 		sb.append(", selfLink='").append(this.selfLink).append('\'');
 		sb.append(", creationTimestamp='").append(this.creationTimestamp).append('\'');
 		sb.append('}');

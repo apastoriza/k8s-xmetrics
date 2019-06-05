@@ -1,12 +1,22 @@
 package com.k8s.xmetrics.model.k8s;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author apastoriza
  */
 public class NodeMetricsListItem {
+
+	@SerializedName("metadata")
 	private Metadata metadata;
+
+	@SerializedName("timestamp")
 	private String timestamp;
+
+	@SerializedName("window")
 	private String window;
+
+	@SerializedName("usage")
 	private Usage usage;
 
 	public Metadata getMetadata() {
