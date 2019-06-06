@@ -203,12 +203,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>1.5.12</version>
-			</dependency>
-
-			<dependency>
 				<groupId>com.squareup.okio</groupId>
 				<artifactId>okio</artifactId>
 				<version>1.13.0</version>
@@ -230,6 +224,12 @@
 				<groupId>io.kubernetes</groupId>
 				<artifactId>client-java</artifactId>
 				<version>${kubernetes.client.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>1.5.12</version>
 			</dependency>
 
 			<dependency>
@@ -274,6 +274,12 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
 				<version>4.4.3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-clients</artifactId>
+				<version>2.2.1</version>
 			</dependency>
 
 			<dependency>

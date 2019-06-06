@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.hardware.NetworkIF;
-import oshi.util.FormatUtil;
+import oshi.software.os.NetworkParams;
+import oshi.software.os.OperatingSystem;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,12 +25,22 @@ public class NetworkInfoServiceImpl implements NetworkInfoService {
 		final NetworkInfo networkInfo = new NetworkInfo();
 		final SystemInfo systemInfo = new SystemInfo();
 		final HardwareAbstractionLayer hal = systemInfo.getHardware();
+		final OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
+
+		this.populateNetworkParameters(operatingSystem.getNetworkParams(), networkInfo);
 		this.populateNetworkInterfaces(hal.getNetworkIFs(), networkInfo);
 		LOGGER.warn("Network Info: {}", networkInfo);
 		return networkInfo;
 	}
 
-	private void populateNetworkInterfaces(final NetworkIF[] networkIFs, final NetworkInfo networkInfo){
+	private void populateNetworkParameters(final NetworkParams networkParams, final NetworkInfo networkInfo) {
+		networkInfo.setHostname(networkParams.getHostName());
+		networkInfo.setDomainName(networkParams.getDomainName());
+		networkInfo.setIpV4DefaultGateway(networkParams.getIpv4DefaultGateway());
+		networkInfo.setIpV6DefaultGateway(networkParams.getIpv6DefaultGateway());
+	}
+
+	private void populateNetworkInterfaces(final NetworkIF[] networkIFs, final NetworkInfo networkInfo) {
 
 		final List<NetworkInterface> networkInterfaces = Lists.newArrayList();
 
@@ -50,7 +60,7 @@ public class NetworkInfoServiceImpl implements NetworkInfoService {
 			Collections.addAll(ipV6Address, net.getIPv6addr());
 			networkInterface.setIpV6Address(ipV6Address);
 
-			if(this.hasData(net)){
+			if (hasData(net)) {
 				networkInterface.setPacketsRecv(net.getPacketsRecv());
 				networkInterface.setBytesRecv(net.getBytesRecv());
 				networkInterface.setInputErrors(net.getInErrors());
@@ -66,7 +76,7 @@ public class NetworkInfoServiceImpl implements NetworkInfoService {
 		networkInfo.setNetworkInterfaces(networkInterfaces);
 	}
 
-	private boolean hasData(final NetworkIF net){
+	private static boolean hasData(final NetworkIF net) {
 		return net.getBytesRecv() > 0 || net.getBytesSent() > 0 || net.getPacketsRecv() > 0
 				|| net.getPacketsSent() > 0;
 	}
