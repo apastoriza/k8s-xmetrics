@@ -26,7 +26,7 @@ public class NodeMonitorTask implements Runnable {
 
 	@Override
 	public void run() {
-		LOGGER.warn("Running node update....");
+		LOGGER.warn("Running nodes monitoring....");
 		this.monitor();
 	}
 

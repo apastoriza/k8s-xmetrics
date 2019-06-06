@@ -26,7 +26,7 @@ public class PodMonitorTask implements Runnable {
 
 	@Override
 	public void run() {
-		LOGGER.warn("Running node update....");
+		LOGGER.warn("Running pods monitoring....");
 		this.monitor();
 	}
 

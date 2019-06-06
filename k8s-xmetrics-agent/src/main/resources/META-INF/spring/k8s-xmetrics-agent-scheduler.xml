@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Tasks -->
+	<bean id="hardwareMonitorTask" class="com.k8s.xmetrics.scheduler.HardwareMonitorTask">
+		<property name="cpuInfoService" ref="cpuInfoService"/>
+		<property name="computerInfoService" ref="computerInfoService"/>
+		<property name="memoryInfoService" ref="memoryInfoService"/>
+		<property name="networkInfoService" ref="networkInfoService"/>
+	</bean>
+
+	<bean id="nodeMonitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
+		<property name="linkNodes" value="${monitor.node.url.link}"/>
+		<property name="apiCallService" ref="apiCallService"/>
+	</bean>
+
+	<bean id="podMonitorTask" class="com.k8s.xmetrics.scheduler.PodMonitorTask">
+		<property name="linkPods" value="${monitor.pod.url.link}"/>
+		<property name="apiCallService" ref="apiCallService"/>
+	</bean>
+
+	<!-- Scheduler -->
+	<bean id="taskSchedulerAgent" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+		<property name="poolSize" value="${task.scheduler.pool.agent}"/>
+	</bean>
+
+	<bean id="hardwareMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.HardwareMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${monitor.hardware.scheduler.cron}"/>
+		<property name="monitorTask" ref="hardwareMonitorTask"/>
+		<property name="taskScheduler" ref="taskSchedulerAgent"/>
+	</bean>
+
+	<bean id="nodeMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.NodeMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${monitor.node.scheduler.cron}"/>
+		<property name="monitorTask" ref="nodeMonitorTask"/>
+		<property name="taskScheduler" ref="taskSchedulerAgent"/>
+	</bean>
+
+	<bean id="podMonitorScheduler"
+		  class="com.k8s.xmetrics.scheduler.PodMonitorScheduler" init-method="initMethod">
+		<property name="cronExpression" value="${monitor.pod.scheduler.cron}"/>
+		<property name="monitorTask" ref="podMonitorTask"/>
+		<property name="taskScheduler" ref="taskSchedulerAgent"/>
+	</bean>
+
+</beans>
