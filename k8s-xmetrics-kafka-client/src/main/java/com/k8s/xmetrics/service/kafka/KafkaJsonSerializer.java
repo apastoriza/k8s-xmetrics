@@ -1,7 +1,7 @@
 package com.k8s.xmetrics.service.kafka;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.k8s.xmetrics.util.ObjectMapperFactory;
 import org.apache.kafka.common.serialization.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class KafkaJsonSerializer implements Serializer {
 	@Override
 	public byte[] serialize(final String topic, final Object data) {
 		byte[] retVal = null;
-		final ObjectMapper objectMapper = ObjectMapperFactory.create();
+		final ObjectMapper objectMapper = createObjectMapper();
 		try {
 			retVal = objectMapper.writeValueAsBytes(data);
 		} catch (final Exception e) {
@@ -35,5 +35,11 @@ public class KafkaJsonSerializer implements Serializer {
 	@Override
 	public void close() {
 		//do nothing yet
+	}
+
+	private static ObjectMapper createObjectMapper() {
+		final ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		return mapper;
 	}
 }

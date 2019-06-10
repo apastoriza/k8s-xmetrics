@@ -2,7 +2,7 @@ package com.k8s.xmetrics.service.kafka;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.k8s.xmetrics.service.config.EnvironmentConfigurationService;
+import com.k8s.xmetrics.service.config.KafkaConfigurationService;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ProducerServiceImpl implements ProducerService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProducerServiceImpl.class);
 
-	private EnvironmentConfigurationService environmentConfigurationService;
+	private KafkaConfigurationService kafkaConfigurationService;
 	private KafkaProducer<String, Object> producer;
 	private final ListMultimap<String, ProducerListener> producerListenerMap;
 
@@ -34,8 +34,8 @@ public class ProducerServiceImpl implements ProducerService {
 	public void initMethod() {
 		final Properties props = new Properties();
 
-		final String kafkaServerUrl = this.environmentConfigurationService.getKafkaServerUrl();
-		final Integer kafkaServerPort = this.environmentConfigurationService.getKafkaServerPort();
+		final String kafkaServerUrl = this.kafkaConfigurationService.getKafkaServerUrl();
+		final Integer kafkaServerPort = this.kafkaConfigurationService.getKafkaServerPort();
 
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServerUrl + ":" + kafkaServerPort);
 		props.put(ProducerConfig.CLIENT_ID_CONFIG, "K8S XMetrics Agent v1.0");
@@ -82,8 +82,7 @@ public class ProducerServiceImpl implements ProducerService {
 		}
 	}
 
-
-	public void setEnvironmentConfigurationService(final EnvironmentConfigurationService environmentConfigurationService) {
-		this.environmentConfigurationService = environmentConfigurationService;
+	public void setKafkaConfigurationService(final KafkaConfigurationService kafkaConfigurationService) {
+		this.kafkaConfigurationService = kafkaConfigurationService;
 	}
 }

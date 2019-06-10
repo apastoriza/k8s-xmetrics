@@ -11,6 +11,7 @@
 	<modules>
 		<!-- Finanure Web App-->
 		<module>k8s-xmetrics-agent</module>
+		<module>k8s-xmetrics-kafka-client</module>
 	</modules>
 
 	<properties>
