@@ -40,7 +40,7 @@ public class CPUInfoServiceImpl implements CPUInfoService {
 		this.populateTicks(processor, cpuInfo);
 		this.populateLoads(processor, cpuInfo);
 
-		LOGGER.warn("CPU Info: {}", cpuInfo);
+		LOGGER.debug("CPU Info: {}", cpuInfo);
 		return cpuInfo;
 	}
 

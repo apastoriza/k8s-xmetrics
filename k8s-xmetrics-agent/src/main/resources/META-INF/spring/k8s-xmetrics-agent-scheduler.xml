@@ -10,16 +10,19 @@
 		<property name="computerInfoService" ref="computerInfoService"/>
 		<property name="memoryInfoService" ref="memoryInfoService"/>
 		<property name="networkInfoService" ref="networkInfoService"/>
+		<property name="producerService" ref="producerService"/>
 	</bean>
 
 	<bean id="nodeMonitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
 		<property name="linkNodes" value="${monitor.node.url.link}"/>
 		<property name="apiCallService" ref="apiCallService"/>
+		<property name="producerService" ref="producerService"/>
 	</bean>
 
 	<bean id="podMonitorTask" class="com.k8s.xmetrics.scheduler.PodMonitorTask">
 		<property name="linkPods" value="${monitor.pod.url.link}"/>
 		<property name="apiCallService" ref="apiCallService"/>
+		<property name="producerService" ref="producerService"/>
 	</bean>
 
 	<!-- Scheduler -->

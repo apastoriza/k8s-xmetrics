@@ -23,7 +23,7 @@ public class MemoryInfoServiceImpl implements MemoryInfoService {
 		memoryInfo.setTotalBytes(memory.getTotal());
 		memoryInfo.setSwapUsedBytes(memory.getSwapUsed());
 		memoryInfo.setSwapTotalBytes(memory.getSwapTotal());
-		LOGGER.warn("Memory Info: {}", memoryInfo);
+		LOGGER.debug("Memory Info: {}", memoryInfo);
 		return memoryInfo;
 	}
 }

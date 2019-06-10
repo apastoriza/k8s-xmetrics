@@ -8,26 +8,35 @@ import com.k8s.xmetrics.service.hardware.CPUInfoService;
 import com.k8s.xmetrics.service.hardware.ComputerInfoService;
 import com.k8s.xmetrics.service.hardware.MemoryInfoService;
 import com.k8s.xmetrics.service.hardware.NetworkInfoService;
+import com.k8s.xmetrics.service.kafka.ProducerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author apastoriza
  */
-public class HardwareMonitorTask implements Runnable {
+public class HardwareMonitorTask implements Runnable{
 	private static final Logger LOGGER = LoggerFactory.getLogger(HardwareMonitorTask.class);
 	private CPUInfoService cpuInfoService;
 	private ComputerInfoService computerInfoService;
 	private MemoryInfoService memoryInfoService;
 	private NetworkInfoService networkInfoService;
+	private ProducerService producerService;
 
 	@Override
 	public void run() {
-		LOGGER.warn("Running HW monitoring....");
+		LOGGER.warn("Running HW monitoring...");
 		final ComputerInfo computerInfo = this.computerInfoService.readInfo();
 		final CPUInfo cpuInfo = this.cpuInfoService.readInfo();
 		final MemoryInfo memoryInfo = this.memoryInfoService.readInfo();
 		final NetworkInfo networkInfo = this.networkInfoService.readInfo();
+
+
+		this.producerService.send("ComputerInfo", computerInfo);
+		this.producerService.send("CPUInfo", cpuInfo);
+		this.producerService.send("MemoryInfo", memoryInfo);
+		this.producerService.send("NetworkInfo", networkInfo);
+
 	}
 
 	public void setCpuInfoService(final CPUInfoService cpuInfoService) {
@@ -44,5 +53,9 @@ public class HardwareMonitorTask implements Runnable {
 
 	public void setNetworkInfoService(final NetworkInfoService networkInfoService) {
 		this.networkInfoService = networkInfoService;
+	}
+
+	public void setProducerService(final ProducerService producerService) {
+		this.producerService = producerService;
 	}
 }

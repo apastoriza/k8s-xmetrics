@@ -27,6 +27,10 @@
 
 	<bean id="networkInfoService" class="com.k8s.xmetrics.service.hardware.NetworkInfoServiceImpl"/>
 
+	<bean id="producerService" class="com.k8s.xmetrics.service.kafka.ProducerServiceImpl" init-method="initMethod">
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+	</bean>
+
 	<bean id="restTemplateService" class="com.k8s.xmetrics.service.RestTemplateServiceImpl"/>
 
 

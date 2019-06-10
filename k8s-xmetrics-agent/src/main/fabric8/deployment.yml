@@ -2,3 +2,12 @@ kind: Deployment
 metadata:
   name: k8s-xmetrics-agent
   namespace: k8s-xmetrics
+spec:
+  template:
+    spec:
+      containers:
+        - env:
+          - name: KAFKA_SERVER_URL
+            value: kafka.kafka-platform
+          - name: KAFKA_SERVER_PORT
+            value: 9092

@@ -24,7 +24,7 @@ public class ComputerInfoServiceImpl implements ComputerInfoService {
 		computerInfo.setManufacturer(computerSystem.getManufacturer());
 		computerInfo.setModel(computerSystem.getModel());
 		computerInfo.setSerialNumber(computerSystem.getSerialNumber());
-		LOGGER.warn("Computer Info: {}", computerInfo);
+		LOGGER.debug("Computer Info: {}", computerInfo);
 		return computerInfo;
 	}
 }

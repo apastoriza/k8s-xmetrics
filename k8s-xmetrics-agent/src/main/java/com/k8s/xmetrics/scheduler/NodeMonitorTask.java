@@ -6,6 +6,7 @@ import com.k8s.xmetrics.model.k8s.NodeMetrics;
 import com.k8s.xmetrics.model.k8s.NodeMetricsList;
 import com.k8s.xmetrics.model.k8s.NodeMetricsListItem;
 import com.k8s.xmetrics.service.k8s.ApiCallService;
+import com.k8s.xmetrics.service.kafka.ProducerService;
 import io.kubernetes.client.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class NodeMonitorTask implements Runnable {
 	private String linkNodes;
 
 	private ApiCallService apiCallService;
+	private ProducerService producerService;
 
 	@Override
 	public void run() {
@@ -53,7 +55,8 @@ public class NodeMonitorTask implements Runnable {
 				final NodeMetrics nodeMetrics = this.apiCallService.getData(selfLink, new TypeToken<NodeMetrics>() {
 					//empty type token
 				}.getType());
-				LOGGER.warn("Node Metrics '{}': {}", nodeMetrics.getMetadata().getName(), nodeMetrics);
+				LOGGER.debug("Node Metrics '{}': {}", nodeMetrics.getMetadata().getName(), nodeMetrics);
+				this.producerService.send("NodeMetrics", nodeMetrics);
 			} catch (final ApiException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -68,4 +71,7 @@ public class NodeMonitorTask implements Runnable {
 		this.linkNodes = linkNodes;
 	}
 
+	public void setProducerService(final ProducerService producerService) {
+		this.producerService = producerService;
+	}
 }

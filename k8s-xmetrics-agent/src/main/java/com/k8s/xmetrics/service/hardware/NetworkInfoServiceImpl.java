@@ -29,7 +29,7 @@ public class NetworkInfoServiceImpl implements NetworkInfoService {
 
 		this.populateNetworkParameters(operatingSystem.getNetworkParams(), networkInfo);
 		this.populateNetworkInterfaces(hal.getNetworkIFs(), networkInfo);
-		LOGGER.warn("Network Info: {}", networkInfo);
+		LOGGER.debug("Network Info: {}", networkInfo);
 		return networkInfo;
 	}
 
