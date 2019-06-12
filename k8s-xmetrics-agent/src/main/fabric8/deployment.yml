@@ -11,3 +11,5 @@ spec:
             value: kafka.kafka-platform
           - name: KAFKA_SERVER_PORT
             value: 9092
+          - name: XMETRICS_AGENT_ID
+            value: agent-cluster-1

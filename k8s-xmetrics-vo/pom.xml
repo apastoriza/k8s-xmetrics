@@ -6,8 +6,7 @@
 		<artifactId>k8s-xmetrics</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>k8s-xmetrics-kafka-client</artifactId>
-
+	<artifactId>k8s-xmetrics-vo</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -15,15 +14,18 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>k8s-xmetrics-datetime</artifactId>
+			<version>${project.version}</version>
 		</dependency>
-
 		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>k8s-xmetrics-model</artifactId>
+			<version>${project.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>net.jodah</groupId>
+			<artifactId>typetools</artifactId>
+		</dependency>
 	</dependencies>
-
 </project>

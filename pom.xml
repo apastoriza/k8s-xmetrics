@@ -11,7 +11,11 @@
 	<modules>
 		<!-- Finanure Web App-->
 		<module>k8s-xmetrics-agent</module>
+		<module>k8s-xmetrics-config</module>
+		<module>k8s-xmetrics-datetime</module>
 		<module>k8s-xmetrics-kafka-client</module>
+		<module>k8s-xmetrics-model</module>
+		<module>k8s-xmetrics-vo</module>
 	</modules>
 
 	<properties>
@@ -260,6 +264,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>net.jodah</groupId>
+				<artifactId>typetools</artifactId>
+				<version>0.6.1</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
 				<version>4.5.1</version>
@@ -503,6 +513,23 @@
 					<artifactId>spring-boot-maven-plugin</artifactId>
 					<version>${spring-boot.version}</version>
 				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.18.1</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.surefire</groupId>
+							<artifactId>surefire-junit47</artifactId>
+							<version>2.18.1</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<skipTests>false</skipTests>
+						<useSystemClassLoader>false</useSystemClassLoader>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -522,14 +549,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>2.18.1</version>
-					</dependency>
-				</dependencies>
 				<configuration>
 					<skipTests>true</skipTests>
 					<useSystemClassLoader>false</useSystemClassLoader>

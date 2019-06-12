@@ -1,6 +1,6 @@
 package com.k8s.xmetrics.model.hardware;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author apastoriza
@@ -10,7 +10,7 @@ public class NetworkInfo {
 	private String domainName;
 	private String ipV4DefaultGateway;
 	private String ipV6DefaultGateway;
-	private List<NetworkInterface> networkInterfaces;
+	private Collection<NetworkInterface> networkInterfaces;
 
 	public String getHostname() {
 		return this.hostname;
@@ -44,11 +44,11 @@ public class NetworkInfo {
 		this.ipV6DefaultGateway = ipV6DefaultGateway;
 	}
 
-	public List<NetworkInterface> getNetworkInterfaces() {
+	public Collection<NetworkInterface> getNetworkInterfaces() {
 		return this.networkInterfaces;
 	}
 
-	public void setNetworkInterfaces(final List<NetworkInterface> networkInterfaces) {
+	public void setNetworkInterfaces(final Collection<NetworkInterface> networkInterfaces) {
 		this.networkInterfaces = networkInterfaces;
 	}
 

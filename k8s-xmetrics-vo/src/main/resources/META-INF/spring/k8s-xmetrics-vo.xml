@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="computerInfoFactory" class="com.k8s.xmetrics.vo.hardware.ComputerInfoFactory">
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+	</bean>
+
+	<bean id="cpuInfoFactory" class="com.k8s.xmetrics.vo.hardware.CPUInfoFactory">
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+	</bean>
+
+	<bean id="memoryInfoFactory" class="com.k8s.xmetrics.vo.hardware.MemoryInfoFactory">
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+	</bean>
+
+	<bean id="networkInfoFactory" class="com.k8s.xmetrics.vo.hardware.NetworkInfoFactory">
+		<property name="networkInterfaceFactory" ref="networkInterfaceFactory"/>
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+	</bean>
+	<bean id="networkInterfaceFactory" class="com.k8s.xmetrics.vo.hardware.NetworkInterfaceFactory"/>
+</beans>

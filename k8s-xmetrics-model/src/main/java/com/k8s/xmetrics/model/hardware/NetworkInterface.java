@@ -1,6 +1,6 @@
 package com.k8s.xmetrics.model.hardware;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author apastoriza
@@ -11,8 +11,8 @@ public class NetworkInterface {
 	private String macAddress;
 	private int mtu;
 	private long speedBPS;
-	private List<String> ipV4Address;
-	private List<String> ipV6Address;
+	private Collection<String> ipV4Address;
+	private Collection<String> ipV6Address;
 	private long packetsRecv;
 	private long bytesRecv;
 	private long inputErrors;
@@ -60,19 +60,19 @@ public class NetworkInterface {
 		this.speedBPS = speedBPS;
 	}
 
-	public List<String> getIpV4Address() {
+	public Collection<String> getIpV4Address() {
 		return this.ipV4Address;
 	}
 
-	public void setIpV4Address(final List<String> ipV4Address) {
+	public void setIpV4Address(final Collection<String> ipV4Address) {
 		this.ipV4Address = ipV4Address;
 	}
 
-	public List<String> getIpV6Address() {
+	public Collection<String> getIpV6Address() {
 		return this.ipV6Address;
 	}
 
-	public void setIpV6Address(final List<String> ipV6Address) {
+	public void setIpV6Address(final Collection<String> ipV6Address) {
 		this.ipV6Address = ipV6Address;
 	}
 

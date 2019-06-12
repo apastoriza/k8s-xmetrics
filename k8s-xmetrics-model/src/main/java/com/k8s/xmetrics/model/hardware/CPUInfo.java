@@ -1,6 +1,6 @@
 package com.k8s.xmetrics.model.hardware;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author apastoriza
@@ -35,8 +35,8 @@ public class CPUInfo {
 	private double cpuLoadPercentCountingTicks;
 	private double cpuLoadPercentOSMXBean;
 
-	private List<Double> cpuLoadAverages;
-	private List<Double> cpuLoadPercentProcessors;
+	private Collection<Double> cpuLoadAverages;
+	private Collection<Double> cpuLoadPercentProcessors;
 
 	public String getIdentifier() {
 		return this.identifier;
@@ -238,19 +238,19 @@ public class CPUInfo {
 		this.cpuLoadPercentOSMXBean = cpuLoadPercentOSMXBean;
 	}
 
-	public List<Double> getCpuLoadAverages() {
+	public Collection<Double> getCpuLoadAverages() {
 		return this.cpuLoadAverages;
 	}
 
-	public void setCpuLoadAverages(final List<Double> cpuLoadAverages) {
+	public void setCpuLoadAverages(final Collection<Double> cpuLoadAverages) {
 		this.cpuLoadAverages = cpuLoadAverages;
 	}
 
-	public List<Double> getCpuLoadPercentProcessors() {
+	public Collection<Double> getCpuLoadPercentProcessors() {
 		return this.cpuLoadPercentProcessors;
 	}
 
-	public void setCpuLoadPercentProcessors(final List<Double> cpuLoadPercentProcessors) {
+	public void setCpuLoadPercentProcessors(final Collection<Double> cpuLoadPercentProcessors) {
 		this.cpuLoadPercentProcessors = cpuLoadPercentProcessors;
 	}
 

@@ -11,6 +11,10 @@
 		<property name="memoryInfoService" ref="memoryInfoService"/>
 		<property name="networkInfoService" ref="networkInfoService"/>
 		<property name="producerService" ref="producerService"/>
+		<property name="computerInfoFactory" ref="computerInfoFactory"/>
+		<property name="cpuInfoFactory" ref="cpuInfoFactory"/>
+		<property name="memoryInfoFactory" ref="memoryInfoFactory"/>
+		<property name="networkInfoFactory" ref="networkInfoFactory"/>
 	</bean>
 
 	<bean id="nodeMonitorTask" class="com.k8s.xmetrics.scheduler.NodeMonitorTask">
