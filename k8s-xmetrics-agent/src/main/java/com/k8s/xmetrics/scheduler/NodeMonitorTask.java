@@ -7,6 +7,8 @@ import com.k8s.xmetrics.model.k8s.NodeMetricsList;
 import com.k8s.xmetrics.model.k8s.NodeMetricsListItem;
 import com.k8s.xmetrics.service.k8s.ApiCallService;
 import com.k8s.xmetrics.service.kafka.ProducerService;
+import com.k8s.xmetrics.vo.k8s.NodeMetricsFactory;
+import com.k8s.xmetrics.vo.k8s.NodeMetricsVO;
 import io.kubernetes.client.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ public class NodeMonitorTask implements Runnable {
 
 	private ApiCallService apiCallService;
 	private ProducerService producerService;
+	private NodeMetricsFactory nodeMetricsFactory;
 
 	@Override
 	public void run() {
@@ -56,7 +59,8 @@ public class NodeMonitorTask implements Runnable {
 					//empty type token
 				}.getType());
 				LOGGER.debug("Node Metrics '{}': {}", nodeMetrics.getMetadata().getName(), nodeMetrics);
-				this.producerService.send("NodeMetrics", nodeMetrics);
+				final NodeMetricsVO nodeMetricsVO = this.nodeMetricsFactory.toVO(nodeMetrics);
+				this.producerService.send("NodeMetrics", nodeMetricsVO);
 			} catch (final ApiException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -73,5 +77,9 @@ public class NodeMonitorTask implements Runnable {
 
 	public void setProducerService(final ProducerService producerService) {
 		this.producerService = producerService;
+	}
+
+	public void setNodeMetricsFactory(final NodeMetricsFactory nodeMetricsFactory) {
+		this.nodeMetricsFactory = nodeMetricsFactory;
 	}
 }

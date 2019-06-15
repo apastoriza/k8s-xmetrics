@@ -11,7 +11,7 @@ public class MemoryInfoFactory extends AbstractAgentVOFactory<MemoryInfo, Memory
 	protected MemoryInfoVO doVO(final MemoryInfo model) {
 		final MemoryInfoVO vo = new MemoryInfoVO();
 		vo.setAvailableBytes(model.getAvailableBytes());
-		vo.setTotalBytes(model.getSwapTotalBytes());
+		vo.setTotalBytes(model.getTotalBytes());
 		vo.setSwapUsedBytes(model.getSwapUsedBytes());
 		vo.setSwapTotalBytes(model.getSwapTotalBytes());
 		return vo;
@@ -21,7 +21,7 @@ public class MemoryInfoFactory extends AbstractAgentVOFactory<MemoryInfo, Memory
 	protected MemoryInfo doModel(final MemoryInfoVO vo) {
 		final MemoryInfo model = new MemoryInfo();
 		model.setAvailableBytes(vo.getAvailableBytes());
-		model.setTotalBytes(vo.getSwapTotalBytes());
+		model.setTotalBytes(vo.getTotalBytes());
 		model.setSwapUsedBytes(vo.getSwapUsedBytes());
 		model.setSwapTotalBytes(vo.getSwapTotalBytes());
 		return model;

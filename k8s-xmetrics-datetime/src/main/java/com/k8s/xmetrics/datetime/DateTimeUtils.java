@@ -91,6 +91,11 @@ public class DateTimeUtils {
 		return DATE_TIME_FORMATTER.print(dateTime);
 	}
 
+	public static String nowAsIsoDateTimeString() {
+		final DateTime nowDateTime = getDateTime(systemTimeZone());
+		return ISO_DATE_TIME_FORMAT.print(nowDateTime);
+	}
+
 	public static LocalDate today() {
 		return new LocalDate();
 	}

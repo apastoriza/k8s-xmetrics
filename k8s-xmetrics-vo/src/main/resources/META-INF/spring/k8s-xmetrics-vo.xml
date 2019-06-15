@@ -19,4 +19,11 @@
 		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
 	</bean>
 	<bean id="networkInterfaceFactory" class="com.k8s.xmetrics.vo.hardware.NetworkInterfaceFactory"/>
+
+	<bean id="nodeMetricsFactory" class="com.k8s.xmetrics.vo.k8s.NodeMetricsFactory">
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+		<property name="usageFactory" ref="usageFactory"/>
+	</bean>
+
+	<bean id="usageFactory" class="com.k8s.xmetrics.vo.k8s.UsageFactory"/>
 </beans>
