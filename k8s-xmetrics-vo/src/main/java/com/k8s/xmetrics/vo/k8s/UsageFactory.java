@@ -75,7 +75,7 @@ public class UsageFactory extends AbstractVOFactory<Usage, UsageVO> {
 
 	private String getUsageValue(final String usageRaw, final String symbol) {
 		final String numericValueAsString = StringUtils.removeEnd(usageRaw, symbol);
-		LOGGER.warn("From raw value '{}' to numeric value '{}' formatted as string", usageRaw, numericValueAsString);
+		LOGGER.debug("From raw value '{}' to numeric value '{}' formatted as string", usageRaw, numericValueAsString);
 		return numericValueAsString;
 	}
 }

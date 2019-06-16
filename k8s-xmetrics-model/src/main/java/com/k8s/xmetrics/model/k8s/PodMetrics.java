@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class PodMetrics {
 	private String window;
 
 	@SerializedName("containers")
-	private List<Container> containers;
+	private Collection<Container> containers;
 
 	/**
 	 * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
@@ -64,11 +65,11 @@ public class PodMetrics {
 		this.window = window;
 	}
 
-	public List<Container> getContainers() {
+	public Collection<Container> getContainers() {
 		return this.containers;
 	}
 
-	public void setContainers(final List<Container> containers) {
+	public void setContainers(final Collection<Container> containers) {
 		this.containers = containers;
 	}
 

@@ -6,6 +6,10 @@
 		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
 	</bean>
 
+	<bean id="containerFactory" class="com.k8s.xmetrics.vo.k8s.ContainerFactory">
+		<property name="usageFactory" ref="usageFactory"/>
+	</bean>
+
 	<bean id="cpuInfoFactory" class="com.k8s.xmetrics.vo.hardware.CPUInfoFactory">
 		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
 	</bean>
@@ -23,6 +27,11 @@
 	<bean id="nodeMetricsFactory" class="com.k8s.xmetrics.vo.k8s.NodeMetricsFactory">
 		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
 		<property name="usageFactory" ref="usageFactory"/>
+	</bean>
+
+	<bean id="podMetricsFactory" class="com.k8s.xmetrics.vo.k8s.PodMetricsFactory">
+		<property name="environmentConfigurationService" ref="environmentConfigurationService"/>
+		<property name="containerFactory" ref="containerFactory"/>
 	</bean>
 
 	<bean id="usageFactory" class="com.k8s.xmetrics.vo.k8s.UsageFactory"/>

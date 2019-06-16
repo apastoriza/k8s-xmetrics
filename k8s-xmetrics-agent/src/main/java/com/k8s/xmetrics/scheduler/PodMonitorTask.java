@@ -7,6 +7,8 @@ import com.k8s.xmetrics.model.k8s.PodMetricsList;
 import com.k8s.xmetrics.model.k8s.PodMetricsListItem;
 import com.k8s.xmetrics.service.k8s.ApiCallService;
 import com.k8s.xmetrics.service.kafka.ProducerService;
+import com.k8s.xmetrics.vo.k8s.PodMetricsFactory;
+import com.k8s.xmetrics.vo.k8s.PodMetricsVO;
 import io.kubernetes.client.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ public class PodMonitorTask implements Runnable {
 
 	private ApiCallService apiCallService;
 	private ProducerService producerService;
+	private PodMetricsFactory podMetricsFactory;
 
 	@Override
 	public void run() {
@@ -56,7 +59,9 @@ public class PodMonitorTask implements Runnable {
 					//empty type token
 				}.getType());
 				LOGGER.debug("Pod Metrics '{}': {}", podMetrics.getMetadata().getName(), podMetrics);
-				this.producerService.send("PodMetrics", podMetrics);
+				final PodMetricsVO podMetricsVO = this.podMetricsFactory.toVO(podMetrics);
+				this.producerService.send("PodMetrics", podMetricsVO);
+
 			} catch (final ApiException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -73,5 +78,9 @@ public class PodMonitorTask implements Runnable {
 
 	public void setProducerService(final ProducerService producerService) {
 		this.producerService = producerService;
+	}
+
+	public void setPodMetricsFactory(final PodMetricsFactory podMetricsFactory) {
+		this.podMetricsFactory = podMetricsFactory;
 	}
 }

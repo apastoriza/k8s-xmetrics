@@ -24,20 +24,19 @@ public class NodeMetricsFactory extends AbstractAgentVOFactory<NodeMetrics, Node
 
 	@Override
 	protected NodeMetrics doModel(final NodeMetricsVO vo) {
-		final NodeMetrics nodeMetrics = new NodeMetrics();
+		final NodeMetrics model = new NodeMetrics();
 		final String timestamp = DateTimeUtils.nowAsIsoDateTimeString();
 
 		final Metadata metadata = new Metadata();
 		metadata.setCreationTimestamp(timestamp);
 		metadata.setName(vo.getName());
 
-		nodeMetrics.setTimestamp(timestamp);
+		model.setTimestamp(timestamp);
 
-		final Usage usage = this.usageFactory.doModel(vo.getUsage());
-		nodeMetrics.setUsage(usage);
+		final Usage usage = this.usageFactory.toModel(vo.getUsage());
+		model.setUsage(usage);
 
-
-		return nodeMetrics;
+		return model;
 	}
 
 	public void setUsageFactory(final UsageFactory usageFactory) {
