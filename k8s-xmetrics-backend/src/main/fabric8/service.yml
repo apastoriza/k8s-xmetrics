@@ -1,0 +1,6 @@
+kind: Service
+metadata:
+  name: k8s-xmetrics-backend
+  namespace: k8s-xmetrics
+  labels:
+    app: k8s-xmetrics-backend

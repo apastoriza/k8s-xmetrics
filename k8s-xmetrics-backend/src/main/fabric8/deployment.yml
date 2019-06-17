@@ -1,0 +1,15 @@
+kind: Deployment
+metadata:
+  name: k8s-xmetrics-backend
+  namespace: k8s-xmetrics
+spec:
+  template:
+    spec:
+      containers:
+        - env:
+          - name: KAFKA_SERVER_URL
+            value: kafka.kafka-platform
+          - name: KAFKA_SERVER_PORT
+            value: 9092
+          - name: KAFKA_GROUP_ID
+            value: xmetrics-backend-group

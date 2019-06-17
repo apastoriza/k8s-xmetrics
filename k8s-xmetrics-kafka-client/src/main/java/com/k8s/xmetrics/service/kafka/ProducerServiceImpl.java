@@ -38,7 +38,7 @@ public class ProducerServiceImpl implements ProducerService {
 		final Integer kafkaServerPort = this.kafkaConfigurationService.getKafkaServerPort();
 
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServerUrl + ":" + kafkaServerPort);
-		props.put(ProducerConfig.CLIENT_ID_CONFIG, "K8S XMetrics Agent v1.0");
+		props.put(ProducerConfig.CLIENT_ID_CONFIG, "K8S XMetrics Producer");
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaJsonSerializer.class.getName());
 		this.producer = new KafkaProducer<String, Object>(props);

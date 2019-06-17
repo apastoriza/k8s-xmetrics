@@ -6,4 +6,6 @@ package com.k8s.xmetrics.service.config;
 public interface KafkaConfigurationService {
 	String getKafkaServerUrl();
 	Integer getKafkaServerPort();
+
+	String getKafkaGroupID();
 }

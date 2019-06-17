@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="consumerService" class="com.k8s.xmetrics.service.kafka.ConsumerServiceImpl" init-method="initMethod">
+		<property name="kafkaConfigurationService" ref="kafkaConfigurationService"/>
+		<property name="sessionTimeoutInMillis" value="30000"/>
+		<property name="topics">
+			<list>
+				<value>PodMetrics</value>
+				<value>NodeMetrics</value>
+				<value>ComputerInfo</value>
+				<value>CPUInfo</value>
+				<value>MemoryInfo</value>
+				<value>NetworkInfo</value>
+			</list>
+		</property>
+	</bean>
+</beans>

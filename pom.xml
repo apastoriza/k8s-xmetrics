@@ -9,13 +9,17 @@
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<!-- Finanure Web App-->
-		<module>k8s-xmetrics-agent</module>
+		<!-- Libraries -->
 		<module>k8s-xmetrics-config</module>
 		<module>k8s-xmetrics-datetime</module>
 		<module>k8s-xmetrics-kafka-client</module>
+		<module>k8s-xmetrics-kafka-consumer</module>
 		<module>k8s-xmetrics-model</module>
 		<module>k8s-xmetrics-vo</module>
+
+		<!-- Containers-->
+		<module>k8s-xmetrics-agent</module>
+		<module>k8s-xmetrics-backend</module>
 	</modules>
 
 	<properties>
