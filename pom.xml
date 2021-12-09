@@ -27,7 +27,7 @@
 		<aspectj.version>1.8.10</aspectj.version>
 		<fabric8.maven.plugin.version>4.1.0</fabric8.maven.plugin.version>
 		<java.version>1.8</java.version>
-		<jackson.version>2.9.9</jackson.version>
+		<jackson.version>2.9.10.8</jackson.version>
 		<kubernetes.client.version>5.0.0</kubernetes.client.version>
 		<log4j.version>2.8.2</log4j.version>
 		<maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
